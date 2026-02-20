@@ -429,6 +429,122 @@
             flex-shrink: 0;
         }
 
+        /* Lab Section */
+        .lab-intro {
+            max-width: 760px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .lab-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 860px;
+            margin: 0 auto 3rem;
+        }
+
+        .member-card {
+            background: var(--surface-color);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.25rem;
+            padding: 1.75rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .member-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+        }
+
+        .member-role {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .member-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .member-link {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            word-break: break-all;
+        }
+
+        .member-link:hover {
+            color: var(--accent-color);
+        }
+
+        .themes-title {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .themes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            max-width: 860px;
+            margin: 0 auto;
+            list-style: none;
+        }
+
+        .themes-list li {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            transition: var(--transition);
+        }
+
+        .themes-list li:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(59, 130, 246, 0.04);
+            color: var(--text-primary);
+        }
+
+        .theme-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-gradient);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: white;
+            margin-top: 1px;
+        }
+
         /* Contact Section */
         #contact {
             text-align: center;
@@ -617,6 +733,7 @@
                 <a href="#experience">Experience</a>
                 <a href="#skills">Skills</a>
                 <a href="#publication">Research</a>
+                <a href="#lab">Lab</a>
                 <a href="#contact">Contact</a>
             </div>
             <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
@@ -629,6 +746,7 @@
             <a href="#experience" class="mobile-link">Experience</a>
             <a href="#skills" class="mobile-link">Skills</a>
             <a href="#publication" class="mobile-link">Research</a>
+            <a href="#lab" class="mobile-link">Lab</a>
             <a href="#contact" class="mobile-link">Contact</a>
         </div>
     </nav>
@@ -759,6 +877,51 @@
                         <span><span class="dot"></span>aSSIST · AI 빅데이터 석사</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- AX Nexus Lab Section -->
+        <section id="lab">
+            <div class="container">
+                <h2 class="section-title reveal">AX Nexus Lab</h2>
+                <p class="lab-intro reveal">
+                    AX Nexus Lab focuses on the intersection of AI, time-series, and decision systems.<br>
+                    The lab develops reproducible methods and practical toolchains for forecasting, optimization,<br>
+                    and trustworthy deployment in real-world settings.
+                </p>
+
+                <div class="lab-members">
+                    <div class="member-card reveal">
+                        <div class="member-role">Principal Investigator</div>
+                        <div class="member-name">Nak Hyun Jung, Ph.D.</div>
+                        <a href="https://nhjung-phd.github.io/" target="_blank" class="member-link">nhjung-phd.github.io →</a>
+                    </div>
+                    <div class="member-card reveal">
+                        <div class="member-role">Researcher</div>
+                        <div class="member-name">Jae-Yong Jung, M.S.</div>
+                        <a href="https://jaeyong-planner.github.io/" target="_blank" class="member-link">jaeyong-planner.github.io →</a>
+                    </div>
+                </div>
+
+                <p class="themes-title reveal">Research Themes</p>
+                <ul class="themes-list reveal">
+                    <li>
+                        <span class="theme-icon">T</span>
+                        <span><strong>Time-series forecasting &amp; representation learning</strong><br>Multi-scale, hierarchical modeling</span>
+                    </li>
+                    <li>
+                        <span class="theme-icon">L</span>
+                        <span><strong>Lightweight / on-device inference</strong><br>Compression, quantization, distillation</span>
+                    </li>
+                    <li>
+                        <span class="theme-icon">D</span>
+                        <span><strong>LLM-assisted decision pipelines</strong><br>Explicit constraints, training-free, reproducible systems</span>
+                    </li>
+                    <li>
+                        <span class="theme-icon">F</span>
+                        <span><strong>AI for finance &amp; operational decision-making</strong><br>Allocation, risk, and monitoring</span>
+                    </li>
+                </ul>
             </div>
         </section>
 
