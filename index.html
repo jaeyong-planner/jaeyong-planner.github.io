@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정재용 (Jay Jeong) | AI Director & AX Specialist</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="AI Director 정재용의 프로필 페이지. AX 기반 플랫폼 혁신 및 AI 전략 전문가. 21년 이상의 경력과 AI 과학기술혁신대상 금상 수상.">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0c0e12;
+            --surface-color: #161a22;
+            --accent-color: #3b82f6;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            background: rgba(12, 14, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            padding-top: 10rem;
+            padding-bottom: 6rem;
+            overflow: hidden;
+        }
+
+        /* Subtle background glow */
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-flex {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            width: 320px;
+            height: 380px;
+            border-radius: 2rem;
+            object-fit: cover;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            transform: rotate(2deg);
+            transition: var(--transition);
+        }
+
+        .hero-image:hover {
+            transform: rotate(0deg) scale(1.02);
+            border-color: var(--accent-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--text-secondary);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: var(--accent-gradient);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Achievements & Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--surface-color);
+            padding: 2.5rem 2rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            background: var(--glass-bg);
+        }
+
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--glass-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            width: 22px;
+            height: 22px;
+            background: var(--bg-color);
+            border: 4px solid var(--accent-color);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content .company {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .timeline-content .date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-tag {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.05);
+            color: var(--text-primary);
+        }
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+            background: var(--surface-color);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .contact-email {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 2rem 0;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .contact-email:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--text-primary);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-flex {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                width: 260px;
+                height: 300px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cta-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container">
+            <div class="logo">JAY JEONG</div>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container">
+                <div class="hero-flex">
+                    <div class="hero-text reveal">
+                        <span class="badge">AI Director & AX Strategist</span>
+                        <h1>정재용 <br><span style="color: var(--accent-color)">Jay Jeong</span></h1>
+                        <p>24년 경력의 웹기획/PM에서 AI 플랫폼 혁신가로. AX(AI Transformation)를 통해 비즈니스 가치를 실현하는 전략적 리더입니다.</p>
+                        <div class="cta-group">
+                            <a href="#contact" class="btn btn-primary">Contact Me</a>
+                            <a href="https://blog.naver.com/carrotcap" target="_blank" class="btn btn-secondary">Visit
+                                Blog</a>
+                        </div>
+                    </div>
+                    <div class="reveal">
+                        <img src="ProfileView.jpg" alt="정재용 프로필" class="hero-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title reveal">Achievements & Background</h2>
+                <div class="stats-grid">
+                    <div class="stat-card reveal">
+                        <span class="stat-num">24+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-card reveal">
+                        <span class="stat-num">Gold</span>
+                        <span class="stat-label">2025 AI Innovation Award</span>
+                    </div>
+                    <div class="stat-card reveal">
+                        <span class="stat-num">1<sup>st</sup></span>
+                        <span class="stat-label">Web Planning Book Author</span>
+                    </div>
+                </div>
+                <div class="reveal"
+                    style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--text-secondary);">
+                    <p>현재 <b>서울과학종합대학원대학교(aSSIST)</b>에서 AI 빅데이터 석사 과정을 밟고 있으며, <b>더 크림유니언(The Cream Union)</b>의 AX Lab
+                        소장으로서 AI 기반 플랫폼 혁신을 주도하고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="container">
+                <h2 class="section-title reveal">Professional Career</h2>
+                <div class="timeline">
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="company">더 크림유니언 (The Cream Union)</span>
+                            <h3>AX Lab 연구소장 / 센터장</h3>
+                            <span class="date">2025.09 - Present</span>
+                            <p>AI 플랫폼 및 제품 개발 총괄. 시각적 온톨로지 기반 UI/UX 설계 자동화 플랫폼 기획. AI Assistant 및 RAG 기반 챗봇 설계 연구.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="company">웅진씽크빅 (Woongjin Thinkbig)</span>
+                            <h3>AI 연구팀 수석연구원 / PM</h3>
+                            <span class="date">2021.09 - 2025.07</span>
+                            <p>에듀테크 AI 프로젝트 리딩. 'AI 독서 마법사' PoC 및 Vertical Agent PM. 교육 플랫폼 추천 시스템 및 BI 프로젝트 총괄.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="company">동아출판 (Dong-A Publishing)</span>
+                            <h3>서비스기획팀 팀장</h3>
+                            <span class="date">2019.07 - 2020.09</span>
+                            <p>동아출판 웹사이트 및 스마트러닝 프로젝트 PM. UI/UX 리뉴얼 및 운영 전략 수립.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="company">천재교과서</span>
+                            <h3>마케팅 IT 기획팀 팀장</h3>
+                            <span class="date">2017.08 - 2019.04</span>
+                            <p>밀크T 초등 서비스 UI/UX 리뉴얼 및 BigData & AI 프로젝트 설계. 학습 추천 AI 코치 모델링 추진.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title reveal">Technical Expertise</h2>
+                <div class="skills-grid reveal">
+                    <div class="skill-tag">AI Agent</div>
+                    <div class="skill-tag">RAG System</div>
+                    <div class="skill-tag">NLP / Deep Learning</div>
+                    <div class="skill-tag">Python (Orange3)</div>
+                    <div class="skill-tag">AX Strategy</div>
+                    <div class="skill-tag">UI/UX Planning</div>
+                    <div class="skill-tag">Product Management</div>
+                    <div class="skill-tag">Vite & React</div>
+                    <div class="skill-tag">On-Device AI</div>
+                    <div class="skill-tag">Statistics</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container reveal">
+                <h2 class="section-title">Get In Touch</h2>
+                <p>혁신적인 프로젝트와 협업 제안은 언제나 환영합니다.</p>
+                <a href="mailto:carrotcap@naver.com" class="contact-email">carrotcap@naver.com</a>
+                <div class="social-links">
+                    <a href="https://blog.naver.com/carrotcap" target="_blank">Naver Blog</a>
+                    <a href="https://www.linkedin.com/in/%EC%9E%AC%EC%9A%A9-%EC%A0%95-66a0a592/"
+                        target="_blank">LinkedIn</a>
+                    <a href="https://github.com/jaeyong-planner" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Jay Jeong. Developed with Passion for AI & UX.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal elements on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        // Initial check
+        reveal();
+    </script>
+</body>
+
+</html>
