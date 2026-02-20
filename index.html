@@ -348,6 +348,87 @@
             color: var(--text-primary);
         }
 
+        /* Publication Section */
+        .publication-card {
+            background: var(--surface-color);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem 2.5rem;
+            max-width: 860px;
+            margin: 0 auto;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .publication-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .publication-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+        }
+
+        .pub-type {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 99px;
+            padding: 0.3rem 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .pub-title-en {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pub-title-ko {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .pub-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .pub-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            flex-shrink: 0;
+        }
+
         /* Contact Section */
         #contact {
             text-align: center;
@@ -535,6 +616,7 @@
                 <a href="#about">About</a>
                 <a href="#experience">Experience</a>
                 <a href="#skills">Skills</a>
+                <a href="#publication">Research</a>
                 <a href="#contact">Contact</a>
             </div>
             <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
@@ -546,6 +628,7 @@
             <a href="#about" class="mobile-link">About</a>
             <a href="#experience" class="mobile-link">Experience</a>
             <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#publication" class="mobile-link">Research</a>
             <a href="#contact" class="mobile-link">Contact</a>
         </div>
     </nav>
@@ -658,6 +741,23 @@
                     <div class="skill-tag">Vite & React</div>
                     <div class="skill-tag">On-Device AI</div>
                     <div class="skill-tag">Statistics</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publication Section -->
+        <section id="publication">
+            <div class="container">
+                <h2 class="section-title reveal">Research & Publication</h2>
+                <div class="publication-card reveal">
+                    <div class="pub-type">M.S. Thesis · 2026.02</div>
+                    <p class="pub-title-en">Matryoshka Soft-Hard Compression for Lightweight On-Device Embedding Compression Technique</p>
+                    <p class="pub-title-ko">Matryoshka Soft-to-Hard Compression을 활용한 경량 온디바이스 임베딩 압축 기법</p>
+                    <div class="pub-meta">
+                        <span><span class="dot"></span>Jung, Jae-Yong (정재용)</span>
+                        <span><span class="dot"></span>Jung, Nak Hyun</span>
+                        <span><span class="dot"></span>aSSIST · AI 빅데이터 석사</span>
+                    </div>
                 </div>
             </div>
         </section>
