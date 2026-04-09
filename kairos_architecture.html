@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybrid KAIROS — 아키텍처 워크플로우</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: #f8f9fc; color: #1a202c; line-height: 1.75; }
+
+    header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #2563eb 100%);
+      padding: 52px 32px; text-align: center;
+    }
+    header h1 { font-size: 2.2rem; color: #ffffff; letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    header h1 span { color: #fde68a; }
+    header p { color: #e0e7ff; font-size: 1rem; }
+    .badge {
+      display: inline-block; background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.5); border-radius: 20px;
+      padding: 4px 18px; font-size: 0.82rem; color: #ffffff; margin-top: 14px;
+    }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 40px 20px; }
+
+    .section-title {
+      font-size: 1rem; font-weight: 800; color: #4f46e5;
+      text-transform: uppercase; letter-spacing: 2px;
+      margin: 36px 0 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 2px; background: #e0e7ff; }
+
+    /* ── 개요 카드 ── */
+    .overview {
+      background: #ffffff; border: 1px solid #e0e7ff; border-radius: 14px;
+      padding: 28px 32px; margin-bottom: 8px;
+      box-shadow: 0 2px 12px rgba(79,70,229,0.07);
+    }
+    .overview p { color: #374151; font-size: 0.97rem; margin-bottom: 20px; }
+    .stat-row { display: flex; gap: 32px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat .num { font-size: 2rem; font-weight: 900; }
+    .stat .lbl { font-size: 0.78rem; color: #6b7280; margin-top: 2px; }
+
+    /* ── 5단계 캐스케이드 ── */
+    .cascade { display: flex; flex-direction: column; gap: 0; }
+    .stage {
+      display: flex; align-items: stretch;
+      border: 2px solid #e0e7ff; border-top: none;
+      background: #ffffff;
+    }
+    .cascade .stage:first-child { border-top: 2px solid #e0e7ff; border-radius: 14px 14px 0 0; }
+    .cascade .stage:last-child  { border-radius: 0 0 14px 14px; }
+    .stage-num {
+      min-width: 56px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900; color: #ffffff;
+      background: #4f46e5;
+    }
+    .cascade .stage:nth-child(3) .stage-num { background: #7c3aed; }
+    .cascade .stage:nth-child(5) .stage-num { background: #2563eb; }
+    .cascade .stage:nth-child(7) .stage-num { background: #0891b2; }
+    .cascade .stage:nth-child(9) .stage-num { background: #dc2626; }
+    .stage-body { flex: 1; padding: 18px 24px; }
+    .stage-name { font-size: 1.05rem; font-weight: 700; color: #111827; margin-bottom: 6px; }
+    .stage-desc { font-size: 0.88rem; color: #374151; }
+    .stage-desc li { margin-left: 18px; margin-top: 3px; }
+
+    .stag { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 0.73rem; font-weight: 700; margin-left: 8px; vertical-align: middle; }
+    .s-instant { background: #d1fae5; color: #065f46; }
+    .s-local   { background: #dbeafe; color: #1e40af; }
+    .s-llm     { background: #ede9fe; color: #5b21b6; }
+    .s-api     { background: #fce7f3; color: #9d174d; }
+    .s-premium { background: #fef3c7; color: #92400e; }
+
+    .arrow-down {
+      text-align: center; font-size: 0.82rem; font-weight: 700;
+      color: #6366f1; background: #eef2ff;
+      padding: 6px; letter-spacing: 1px;
+      border-left: 2px solid #e0e7ff; border-right: 2px solid #e0e7ff;
+    }
+
+    /* ── Health Score ── */
+    .health-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 8px; }
+    .health-card {
+      background: #ffffff; border: 2px solid #e0e7ff; border-radius: 12px;
+      padding: 20px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .hc-grade { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+    .hc-score { font-size: 2rem; font-weight: 900; margin-bottom: 4px; }
+    .hc-label { font-size: 0.82rem; color: #6b7280; }
+    .green  { color: #059669; }
+    .yellow { color: #d97706; }
+    .red    { color: #dc2626; }
+
+    /* ── 공식 박스 ── */
+    .formula-box {
+      background: #1e1b4b; border-radius: 12px;
+      padding: 22px 28px; margin-bottom: 8px;
+      font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem;
+    }
+    .formula-box .ftitle { color: #a5b4fc; font-size: 0.78rem; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+    .formula-box .fline  { color: #e0e7ff; line-height: 2; }
+    .formula-box .fkey   { color: #93c5fd; font-weight: 700; }
+    .formula-box .fval   { color: #6ee7b7; }
+    .formula-box .fop    { color: #f9a8d4; }
+    .formula-box .fcmt   { color: #64748b; }
+
+    /* ── 흐름도 SVG ── */
+    .flow-wrap {
+      background: #ffffff; border: 1px solid #e0e7ff; border-radius: 14px;
+      padding: 24px; overflow-x: auto; margin-bottom: 8px;
+      box-shadow: 0 2px 12px rgba(79,70,229,0.07);
+    }
+
+    /* ── 표 ── */
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 8px; }
+    th { background: #4f46e5; color: #ffffff; padding: 12px 16px; text-align: left; font-size: 0.88rem; }
+    td { padding: 10px 16px; border-bottom: 1px solid #e0e7ff; color: #1f2937; }
+    tr:hover td { background: #f5f3ff; }
+    code { background: #ede9fe; color: #5b21b6; padding: 2px 8px; border-radius: 5px; font-size: 0.85rem; }
+
+    footer { text-align: center; color: #9ca3af; font-size: 0.8rem; padding: 40px; border-top: 1px solid #e0e7ff; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ Hybrid <span>KAIROS</span></h1>
+  <p>Knowledge-Augmented Intelligent Routing &amp; Orchestration System</p>
+  <div class="badge">당근CLAW · 5단계 캐스케이드 아키텍처</div>
+</header>
+
+<div class="container">
+
+  <!-- 1. 개요 -->
+  <div class="section-title">🎯 1. 아키텍처 개요</div>
+  <div class="overview">
+    <p>
+      Hybrid KAIROS는 <strong>비용 최적화 + 품질 보장</strong>을 동시에 달성하는 5단계 지능형 라우팅 시스템입니다.<br>
+      단순한 요청은 저비용 레이어에서 즉시 처리하고, 복잡한 추론이 필요한 요청만 고성능 Cloud LLM으로 에스컬레이션합니다.
+    </p>
+    <div class="stat-row">
+      <div class="stat"><div class="num" style="color:#059669;">88%</div><div class="lbl">월 비용 절감</div></div>
+      <div class="stat"><div class="num" style="color:#4f46e5;">5단계</div><div class="lbl">캐스케이드 레이어</div></div>
+      <div class="stat"><div class="num" style="color:#7c3aed;">Health</div><div class="lbl">Bypass 자동화</div></div>
+      <div class="stat"><div class="num" style="color:#dc2626;">99%+</div><div class="lbl">시스템 신뢰성</div></div>
+    </div>
+  </div>
+
+  <!-- 2. 5단계 캐스케이드 -->
+  <div class="section-title">⚙️ 2. 5단계 캐스케이드 파이프라인</div>
+  <div class="cascade">
+
+    <div class="stage">
+      <div class="stage-num">1</div>
+      <div class="stage-body">
+        <div class="stage-name">Rule Engine / Policy <span class="stag s-instant">즉시 &lt;10ms · $0</span></div>
+        <div class="stage-desc">
+          사전 정의 규칙, 금지어, 보안 정책 기반으로 즉시 처리.<br>
+          <ul>
+            <li>키워드 라우팅 테이블 자동 매핑 (카이로스 / 랄프 / 온톨로지 등)</li>
+            <li>Prompt Injection 방어 · 절대 규칙 강제 적용</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓ bypass 조건 미충족 시 다음 단계로</div>
+
+    <div class="stage">
+      <div class="stage-num">2</div>
+      <div class="stage-body">
+        <div class="stage-name">KMS + Vector Search <span class="stag s-local">로컬 · ~50ms · $0</span></div>
+        <div class="stage-desc">
+          Obsidian Vault(7,681 노트) + ChromaDB 벡터 DB 하이브리드 검색.<br>
+          <ul>
+            <li>ontology_hybrid_query.py → runtime.route 자동 실행</li>
+            <li>벡터 유사도 + 구조적 그래프 탐색 동시 수행</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓ 신뢰도 임계값 미달 시 다음 단계로</div>
+
+    <div class="stage">
+      <div class="stage-num">3</div>
+      <div class="stage-body">
+        <div class="stage-name">Local LLM — LM Studio <span class="stag s-llm">로컬 GPU · ~500ms · $0</span></div>
+        <div class="stage-desc">
+          localhost:1234 로컬 모델 직접 추론. Health Score 기반 자동 Bypass.<br>
+          <ul>
+            <li>운영 모델: qwen3-coder-next / exaone-4.0-32b / gpt-oss-120b</li>
+            <li>Health Score ≥ 85 → 정상 처리 / &lt;70 → 자동 Bypass</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓ Health Bypass 또는 품질 미달 시 다음 단계로</div>
+
+    <div class="stage">
+      <div class="stage-num">4</div>
+      <div class="stage-body">
+        <div class="stage-name">Mid API — MiniMax / Haiku <span class="stag s-api">Cloud · ~1s · Economy</span></div>
+        <div class="stage-desc">
+          중간 비용 Cloud API로 구조화 응답 생성.<br>
+          <ul>
+            <li>MiniMax M2.7 (기본 대화) / Claude Haiku (경량 처리)</li>
+            <li>경량 대화 · 요약 · 분류 · 자동화 태스크 최적화</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓ 복잡 추론 / 아키텍처 판단 필요 시 최종 단계로</div>
+
+    <div class="stage">
+      <div class="stage-num">5</div>
+      <div class="stage-body">
+        <div class="stage-name">High API — Claude Sonnet / Opus <span class="stag s-premium">Premium · ~3s · 최후 수단</span></div>
+        <div class="stage-desc">
+          최고 품질 Cloud LLM — 복잡한 추론·설계·전략에만 사용.<br>
+          <ul>
+            <li>Sonnet 4.6 → 코드 생성 / 수정 / 리뷰 (Medium 비용)</li>
+            <li>Opus 4.6 → 계획 · 분석 · 전략 · 오케스트레이션 (Premium 비용)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. Health Score -->
+  <div class="section-title">📊 3. Health Score 계산 공식</div>
+  <div class="formula-box">
+    <div class="ftitle">모델 Health Score (0 ~ 100점)</div>
+    <div class="fline">
+      <span class="fkey">health_score</span> =
+      <span class="fval">성공률</span><span class="fop"> × 0.35</span> +
+      <span class="fval">응답속도</span><span class="fop"> × 0.20</span> +
+      <span class="fval">JSON 정확도</span><span class="fop"> × 0.20</span> +
+      <span class="fval">품질</span><span class="fop"> × 0.15</span> +
+      <span class="fval">비용효율</span><span class="fop"> × 0.10</span>
+    </div>
+  </div>
+
+  <div class="health-grid">
+    <div class="health-card">
+      <div class="hc-grade green">✅ Healthy</div>
+      <div class="hc-score green">85+</div>
+      <div class="hc-label">정상 사용</div>
+    </div>
+    <div class="health-card">
+      <div class="hc-grade yellow">⚠️ Degraded</div>
+      <div class="hc-score yellow">70 – 84</div>
+      <div class="hc-label">사용하되 경고 표시</div>
+    </div>
+    <div class="health-card">
+      <div class="hc-grade red">🚫 Unhealthy</div>
+      <div class="hc-score red">&lt; 70</div>
+      <div class="hc-label">자동 Bypass → 다음 Stage</div>
+    </div>
+  </div>
+
+  <!-- 4. 흐름도 -->
+  <div class="section-title">🔄 4. 요청 처리 흐름도</div>
+  <div class="flow-wrap">
+    <svg width="960" height="280" viewBox="0 0 960 280">
+      <defs>
+        <marker id="a1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#4f46e5"/>
+        </marker>
+        <marker id="a2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#059669"/>
+        </marker>
+        <marker id="a3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0,10 3.5,0 7" fill="#dc2626"/>
+        </marker>
+      </defs>
+
+      <!-- Query -->
+      <rect x="10" y="100" width="90" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="55" y="125" text-anchor="middle" font-size="13" fill="#3730a3" font-weight="bold">User</text>
+      <text x="55" y="145" text-anchor="middle" font-size="13" fill="#3730a3">Query</text>
+
+      <!-- Stage 박스 -->
+      <rect x="130" y="85" width="110" height="80" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+      <text x="185" y="115" text-anchor="middle" font-size="12" fill="#1e1b4b" font-weight="bold">Stage 1</text>
+      <text x="185" y="133" text-anchor="middle" font-size="11" fill="#3730a3">Rule Engine</text>
+      <text x="185" y="151" text-anchor="middle" font-size="10" fill="#059669">즉시 &lt;10ms</text>
+
+      <rect x="270" y="85" width="110" height="80" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+      <text x="325" y="115" text-anchor="middle" font-size="12" fill="#1e1b4b" font-weight="bold">Stage 2</text>
+      <text x="325" y="133" text-anchor="middle" font-size="11" fill="#3730a3">KMS+Vector</text>
+      <text x="325" y="151" text-anchor="middle" font-size="10" fill="#059669">~50ms</text>
+
+      <rect x="410" y="85" width="110" height="80" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+      <text x="465" y="115" text-anchor="middle" font-size="12" fill="#1e1b4b" font-weight="bold">Stage 3</text>
+      <text x="465" y="133" text-anchor="middle" font-size="11" fill="#5b21b6">Local LLM</text>
+      <text x="465" y="151" text-anchor="middle" font-size="10" fill="#059669">~500ms</text>
+
+      <rect x="550" y="85" width="110" height="80" rx="8" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+      <text x="605" y="115" text-anchor="middle" font-size="12" fill="#1e1b4b" font-weight="bold">Stage 4</text>
+      <text x="605" y="133" text-anchor="middle" font-size="11" fill="#9d174d">MiniMax</text>
+      <text x="605" y="151" text-anchor="middle" font-size="10" fill="#d97706">Economy</text>
+
+      <rect x="690" y="85" width="110" height="80" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <text x="745" y="115" text-anchor="middle" font-size="12" fill="#1e1b4b" font-weight="bold">Stage 5</text>
+      <text x="745" y="133" text-anchor="middle" font-size="11" fill="#92400e">Sonnet/Opus</text>
+      <text x="745" y="151" text-anchor="middle" font-size="10" fill="#dc2626">Premium</text>
+
+      <!-- Response -->
+      <rect x="840" y="100" width="100" height="60" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+      <text x="890" y="124" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">Response</text>
+      <text x="890" y="144" text-anchor="middle" font-size="11" fill="#065f46">+ 보고</text>
+
+      <!-- 메인 화살표 -->
+      <line x1="100" y1="130" x2="128" y2="130" stroke="#4f46e5" stroke-width="2" marker-end="url(#a1)"/>
+      <line x1="240" y1="130" x2="268" y2="130" stroke="#4f46e5" stroke-width="2" marker-end="url(#a1)"/>
+      <line x1="380" y1="130" x2="408" y2="130" stroke="#4f46e5" stroke-width="2" marker-end="url(#a1)"/>
+      <line x1="520" y1="130" x2="548" y2="130" stroke="#4f46e5" stroke-width="2" marker-end="url(#a1)"/>
+      <line x1="660" y1="130" x2="688" y2="130" stroke="#4f46e5" stroke-width="2" marker-end="url(#a1)"/>
+      <line x1="800" y1="130" x2="838" y2="130" stroke="#059669" stroke-width="2.5" marker-end="url(#a2)"/>
+
+      <!-- 처리 완료 bypass (아래 점선) -->
+      <text x="185" y="200" text-anchor="middle" font-size="10" fill="#059669" font-weight="bold">처리 완료 시 바로 응답</text>
+      <line x1="185" y1="165" x2="185" y2="210" stroke="#059669" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a2)"/>
+      <line x1="185" y1="225" x2="875" y2="225" stroke="#059669" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="875" y1="225" x2="875" y2="162" stroke="#059669" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a2)"/>
+
+      <!-- Health Bypass -->
+      <rect x="392" y="30" width="148" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="466" y="49" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">Health Bypass (&lt;70점)</text>
+      <line x1="466" y1="58" x2="466" y2="83" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#a3)"/>
+    </svg>
+  </div>
+
+  <!-- 5. 모델 라우팅 기준표 -->
+  <div class="section-title">🗺️ 5. 모델 라우팅 기준표</div>
+  <table>
+    <tr><th>요청 유형</th><th>자동 선택 Stage</th><th>모델</th><th>비용</th></tr>
+    <tr><td>경량 대화 / 조회 / 요약</td><td>Stage 1 ~ 2</td><td>Rule Engine → KMS</td><td style="color:#059669; font-weight:700;">$0</td></tr>
+    <tr><td>일반 자동화 / 분류 / 간단 생성</td><td>Stage 3 ~ 4</td><td>Local LLM → Haiku</td><td style="color:#2563eb; font-weight:700;">Economy</td></tr>
+    <tr><td>코드 생성 / 수정 / 리뷰</td><td>Stage 5</td><td>Claude Sonnet 4.6</td><td style="color:#d97706; font-weight:700;">Medium</td></tr>
+    <tr><td>설계 / 전략 / 복잡 추론</td><td>Stage 5</td><td>Claude Opus 4.6</td><td style="color:#dc2626; font-weight:700;">Premium</td></tr>
+    <tr><td>읽기전용 보안/품질 리뷰</td><td>Stage 5 (서브에이전트)</td><td>Claude Sonnet 4.5</td><td style="color:#2563eb; font-weight:700;">Economy</td></tr>
+  </table>
+
+  <!-- 6. 키워드 라우팅 -->
+  <div class="section-title">🔑 6. 키워드 자동 라우팅 규칙</div>
+  <table>
+    <tr><th>키워드 패턴</th><th>실행 액션</th><th>설명</th></tr>
+    <tr><td><code>카이로스.*적용</code></td><td>decision → queue.enqueue</td><td>의사결정 큐 자동 등록</td></tr>
+    <tr><td><code>온톨로지.*적용 | 온.*적용</code></td><td>hybrid_query → runtime.route</td><td>온톨로지 하이브리드 조회</td></tr>
+    <tr><td><code>오토.*</code></td><td>healer.heal → docker up</td><td>자동 복구 + Docker 재시작</td></tr>
+    <tr><td><code>RALPH | ralph | 랄프</code></td><td>ralph_loop.check</td><td>5게이트 검증 루프 실행</td></tr>
+    <tr><td><code>학습 | 러닝</code></td><td>learning_loop 자동 라우팅</td><td>Learning Loop 실행</td></tr>
+    <tr><td><code>회고 | retrospective</code></td><td>learning_loop.retrospective</td><td>LSE 회고 + 교훈 추출</td></tr>
+    <tr><td><code>진화 | evolve</code></td><td>memento_router.evolve</td><td>스킬 자동 진화 사이클</td></tr>
+  </table>
+
+</div>
+
+  <!-- 당근대장 홍보 섹션 -->
+  <div style="max-width:1080px; margin: 0 auto 0; padding: 0 20px 40px;">
+    <div class="section-title">🥕 만든 사람</div>
+    <div style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 16px; padding: 36px 40px; color: white; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; box-shadow: 0 8px 32px rgba(255,107,53,0.25);">
+      <div style="font-size: 4rem;">🥕</div>
+      <div style="flex: 1; min-width: 220px;">
+        <div style="font-size: 1.6rem; font-weight: 900; margin-bottom: 6px;">당근대장</div>
+        <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 16px;">AI 에이전트 오케스트레이션 · 자동화 시스템 구축 전문</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <span style="background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 4px 16px; font-size: 0.82rem;">🤖 AI 에이전트</span>
+          <span style="background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 4px 16px; font-size: 0.82rem;">⚙️ 업무 자동화</span>
+          <span style="background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 4px 16px; font-size: 0.82rem;">📊 데이터 파이프라인</span>
+          <span style="background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 4px 16px; font-size: 0.82rem;">🚀 시스템 구축</span>
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+          <a href="mailto:carrotcap@naver.com" style="display: inline-block; background: white; color: #ff6b35; font-weight: 800; font-size: 0.95rem; padding: 11px 24px; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 16px rgba(0,0,0,0.15); white-space: nowrap;">
+            📧 carrotcap@naver.com
+          </a>
+          <a href="https://open.kakao.com/o/gidpWQt" target="_blank" style="display: inline-block; background: #FEE500; color: #3a1d1d; font-weight: 800; font-size: 0.95rem; padding: 11px 24px; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 16px rgba(0,0,0,0.15); white-space: nowrap;">
+            💬 카카오 오픈체팅 입장
+          </a>
+        </div>
+        <div style="font-size: 0.78rem; opacity: 0.8; margin-top: 8px;">문의 · 협업 · 의뢰 환영</div>
+      </div>
+    </div>
+  </div>
+
+<footer>Hybrid KAIROS Architecture · 당근CLAW 2026-04-09 · Knowledge-Augmented Intelligent Routing &amp; Orchestration System</footer>
+
+</body>
+</html>
